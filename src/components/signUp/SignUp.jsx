@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 
-import FormInput from "../formInput/FormInput";
-import CustomButton from "../customButton/CustomButton";
+import FormInput from '../formInput/FormInput';
+import CustomButton from '../customButton/CustomButton';
 
-import { auth, createUserProfile } from "../../firebase/firebaseUtils";
+import { auth, createUserProfile } from '../../firebase/firebaseUtils';
 
-import "./SignUp.scss";
+import './SignUp.scss';
 
 class SignUp extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      displayName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      displayName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     };
   }
 
@@ -24,23 +24,23 @@ class SignUp extends React.Component {
     const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
-      alert("Password dont match!");
+      alert('Password dont match!');
       return;
     }
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
-        password
+        password,
       );
       await createUserProfile(user, { displayName });
       this.setState({
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        displayName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

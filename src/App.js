@@ -1,12 +1,13 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import HomePage from "./pages/homepage/Homepage";
-import ShopPage from "./pages/shoppage/Shoppage";
-import Header from "./components/header/Header";
-import Login from "./pages/Login/Login";
-import "./App.css";
-import { auth, createUserProfile } from "./firebase/firebaseUtils";
+import './App.css';
+
+import HomePage from './pages/homepage/Homepage';
+import ShopPage from './pages/shoppage/Shoppage';
+import Header from './components/header/Header';
+import Login from './pages/Login/Login';
+import { auth, createUserProfile } from './firebase/firebaseUtils';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,10 +17,10 @@ class App extends React.Component {
     };
   }
 
-  unsubscribteFroumAuth = null;
+  unsubscribteFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribteFroumAuth = auth.onAuthStateChanged(async (userAuth) => {
+    this.unsubscribteFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = createUserProfile(userAuth);
         (await userRef).onSnapshot((snapshot) => {
@@ -31,22 +32,26 @@ class App extends React.Component {
           });
         });
       }
+
+      this.setState({
+        currentUser: userAuth,
+      });
     });
   }
 
   componentWillUnmount() {
-    this.unsubscribteFroumAuth();
+    this.unsubscribteFromAuth();
   }
 
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />
+        <Header currentUser={this.state.currentUser} />{' '}
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={Login} />
-        </Switch>
+          <Route exact path="/" component={HomePage} />{' '}
+          <Route path="/shop" component={ShopPage} />{' '}
+          <Route path="/signin" component={Login} />{' '}
+        </Switch>{' '}
       </div>
     );
   }

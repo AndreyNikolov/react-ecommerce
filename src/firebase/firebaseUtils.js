@@ -12,6 +12,7 @@ const config = {
   appId: "1:110029739708:web:464e72471337b9a92fe2b9",
 };
 
+
 export const createUserProfile = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
@@ -19,7 +20,10 @@ export const createUserProfile = async (userAuth, additionalData) => {
   const snapshot = await userRef.get();
 
   if (!snapshot.exists) {
-    const { displayName, email } = userAuth;
+    const {
+      displayName,
+      email
+    } = userAuth;
     const createdAt = new Date();
 
     try {
@@ -43,7 +47,9 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+provider.setCustomParameters({
+  prompt: "select_account"
+});
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 export default firebase;
